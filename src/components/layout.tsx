@@ -38,12 +38,12 @@ const Layout = ({ children }: ILayout) => {
                 </a>
               </li>
               <li className="flex items-center justify-center w-10 h-10 bg-gray-400 rounded">
-                <a href="">
+                <a href="https://www.linkedin.com/in/alializada/">
                   <AiFillLinkedin className="w-8 h-8 text-black" />
                 </a>
               </li>
               <li className="flex items-center justify-center w-10 h-10 bg-gray-400 rounded">
-                <a href="">
+                <a href="https://github.com/prince1456">
                   <AiOutlineGithub className="w-8 h-8 text-black" />
                 </a>
               </li>

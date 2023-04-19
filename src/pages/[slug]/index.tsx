@@ -8,6 +8,7 @@ import Container from "@/common/container";
 import Image from "next/image";
 import { motion, useScroll } from "framer-motion";
 import { ArticleJsonLd } from "next-seo";
+
 interface IPostDetails {
   dehydratedState: any;
   slug: string;
@@ -48,7 +49,12 @@ const PostDetails = ({ slug }: IPostDetails) => {
             </span>{" "}
             <span className="text-red-500">{post?.yoast_head_json.author}</span>
           </p>
-          <div className="h-auto overflow-hidden aspect-auto">
+          <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          viewport={{ once: false }}
+           className="h-auto overflow-hidden aspect-auto">
             <Image
               src={post?._embedded["wp:featuredmedia"][0].media_details?.sizes?.full?.source_url ?? ""}
               width={210}
@@ -56,7 +62,7 @@ const PostDetails = ({ slug }: IPostDetails) => {
               alt={post?.title.rendered || " "}
               className="object-cover min-h-[180px] w-full duration-500 ease-in-out rounded-md group-hover:rotate-6 group-hover:scale-125"
             />
-          </div>
+          </motion.div>
           <div dangerouslySetInnerHTML={{ __html: content ?? " " }} />
         </Container>
       </article>

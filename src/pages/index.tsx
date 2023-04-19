@@ -1,21 +1,26 @@
 import Container from "@/common/container";
-import ParallaxText from '@/components/ParallaxText';
+import ParallaxText from "@/components/ParallaxText";
 import Avatar from "@/components/avatar";
 import Layout from "@/components/layout";
 import { getPosts } from "@/services/articles";
 import type { IArticle } from "@/types/article";
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import type { GetServerSideProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-
+import YouTube from "react-youtube";
 import { stripHtml } from "string-strip-html";
 
 export default function Home() {
+  const { scrollYProgress } = useScroll();
   const { data: posts } = useQuery({ queryKey: ["posts"], queryFn: getPosts });
   return (
     <Layout>
+      <motion.div
+        style={{ scaleX: scrollYProgress }}
+        className="fixed top-0 left-0 right-0 h-2 bg-red-500 transform origin-[0%]"
+      />
       <header className="flex justify-center w-full h-screen lg:h-[60vh] max-h-screen">
         <div className="relative flex flex-col items-center justify-center w-full md:w-3/6">
           <Avatar type={1} />
@@ -45,12 +50,12 @@ export default function Home() {
       </header>
       <section className="flex flex-col items-center justify-center w-full h-full my-24">
         <Container>
-        <ParallaxText baseVelocity={-5}>
-         Are you looking for freelancer or hiring?
-        </ParallaxText>
-        <ParallaxText baseVelocity={5}>
-          contact me  akbar.alizadeh5@gmail.com
-        </ParallaxText>
+          <ParallaxText baseVelocity={-5}>
+            Are you looking for freelancer or hiring?
+          </ParallaxText>
+          <ParallaxText baseVelocity={5}>
+            contact me akbar.alizadeh5@gmail.com
+          </ParallaxText>
         </Container>
       </section>
       <section className="flex flex-col items-center justify-center w-full h-full">
@@ -60,15 +65,17 @@ export default function Home() {
             transition={{ delay: 0.2, duration: 0.5 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
-           className="text-4xl text-center font-space">
+            className="text-4xl text-center font-space"
+          >
             Ali&rsquo;s Exciting Activities 🚀
           </motion.h2>
-          <motion.p 
-             initial={{ opacity: 0, y: 20 }}
-             transition={{ delay: 0.4, duration: 0.6 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: false }}
-            className="m-auto mt-4 text-lg text-center lg:w-4/6">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            className="m-auto mt-4 text-lg text-center lg:w-4/6"
+          >
             Life&rsquo;s never dull when you&rsquo;re juggling a variety of
             thrilling activities! 🎭 As a proud organizer of the{" "}
             <a
@@ -86,11 +93,12 @@ export default function Home() {
             back often to see what new adventures I&rsquo;m up to! 🌟😊
           </motion.p>
           <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           transition={{ delay: 0.5, duration: 0.5 }}
-           viewport={{ once: false }}
-           className="flex flex-col items-center justify-center w-full h-full mt-10">
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            viewport={{ once: false }}
+            className="flex flex-col items-center justify-center w-full h-full mt-10"
+          >
             <div className="relative flex flex-col items-center justify-center w-full overflow-hidden bg-white lg:w-4/6 h-96 rounded-2xl">
               <Image
                 src="/images/class.jpeg"
@@ -108,12 +116,13 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.p 
-           initial={{ opacity: 0, y: 20 }}
-           transition={{ delay: 0.5, duration: 0.6 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: false }}
-          className="w-5/6 mx-auto mt-10 text-lg text-center md:w-4/6 font-dmSans medium">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            className="w-5/6 mx-auto mt-10 text-lg text-center md:w-4/6 font-dmSans medium"
+          >
             I&rsquo;ve got a passion for sharing my knowledge and ideas with
             others, and what better way to do that than by writing articles for
             some awesome online platforms? 📝✨ You can find my
@@ -138,20 +147,26 @@ export default function Home() {
             favorite beverage, get comfy, and let&rsquo;s explore these
             fascinating subjects together! ☕️🤗
           </motion.p>
-          <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-          viewport={{ once: false }}
-          className="flex flex-col items-center justify-center w-full h-full mt-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            viewport={{ once: false }}
+            className="flex flex-col items-center justify-center w-full h-full mt-10"
+          >
             <div className="relative flex flex-col items-center justify-center w-full overflow-hidden bg-white lg:w-4/6 h-96 rounded-2xl">
-              <Image
+              <video controls autoPlay loop muted>
+                <source src="/video/video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+
+              {/* <Image
                 src="/images/react-dojo.png"
                 width={1200}
                 height={300}
                 alt="react dojo"
                 className="absolute top-0 left-0 object-cover h-96"
-              />
+              /> */}
               {/* <h3 className="text-2xl font-space">Project 1</h3>
               <p className="w-4/6 mt-10 font-dmSans medium">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
@@ -165,13 +180,20 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center w-full h-full mt-32 mb-52">
         <Container>
           <div className="w-full px-4 py-20 mx-auto md:px-10 rounded-2xl lg:rounded-3xl lg:w-4/6 bg-primary">
-            <h2 className="text-4xl text-center font-space">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-4xl text-center font-space"
+            >
               Ali&rsquo;s latest Articles 🚀
-            </h2>
+            </motion.h2>
             <p className="w-full m-auto mt-10 text-lg text-center font-dmSans">
               Passionate about sharing knowledge, find my articles on{" "}
               <a
-                href="https://medium.com/"
+                className="font-bold text-red-500 "
+                href="https://medium.com/@ayakosayama"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -179,34 +201,37 @@ export default function Home() {
               </a>{" "}
               &amp;{" "}
               <a
+              className="font-bold text-red-500 "
                 href="https://howtocrackit.com/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                HowToCrackIt
+                howtocrackit
               </a>
               —covering tech, programming &amp; personal growth! 🌟
             </p>
             <motion.div
-             initial={{ opacity: 0 }}
-             whileInView={{ opacity: 1 }}
-             exit={{ opacity: 0 }}
-             transition={{ duration: 0.5 }}
-             className="grid gap-6 mt-10 grid-col-1">
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="grid gap-6 mt-10 grid-col-1"
+            >
               {posts.map((article: IArticle, i: number) => {
                 return (
                   <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  viewport={{ once: false }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1, duration: 0.5 }}
+                    viewport={{ once: false }}
                     key={article.id}
                     className="grid grid-cols-1 gap-y-8 lg:gap-y-0 md:gap-x-8 md:grid-cols-3"
                   >
                     <div className="relative flex justify-center overflow-hidden text-center rounded-md cursor-pointer group">
                       <Image
                         src={
-                          article._embedded["wp:featuredmedia"][0].media_details.sizes.full.source_url
+                          article._embedded["wp:featuredmedia"][0].media_details
+                            .sizes.full.source_url
                         }
                         width={210}
                         height={180}
@@ -241,11 +266,12 @@ export default function Home() {
       <section className="bg-[#D8D8D8] h-[400px] mb-32 flex justify-center">
         <Container>
           <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1, }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          viewport={{ once: false }}
-           className="w-full px-4 py-20 mx-auto -translate-y-24 bg-white md:px-10 rounded-2xl lg:rounded-3xl lg:w-4/6 ">
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            viewport={{ once: false }}
+            className="w-full px-4 py-20 mx-auto -translate-y-24 bg-white md:px-10 rounded-2xl lg:rounded-3xl lg:w-4/6 "
+          >
             <h2 className="w-5/6 text-4xl text-black font-space">
               Subscribe to my newsletter to keep you updated.
             </h2>
@@ -265,7 +291,6 @@ export default function Home() {
           </motion.div>
         </Container>
       </section>
-     
     </Layout>
   );
 }
