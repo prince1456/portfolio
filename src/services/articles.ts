@@ -15,7 +15,7 @@ export function getPosts() {
   
   export const getAllPosts = async (): Promise<IArticle[]> => {
     const res = await fetch(
-      "https://howtocrackit.com/wp-json/wp/v2/posts?author=1&_embed&per_page=25"
+      "https://howtocrackit.com/wp-json/wp/v2/posts?author=1&_embed&per_page=4"
     );
     const posts = await res.json();
   
@@ -23,12 +23,26 @@ export function getPosts() {
   };
   
   export async function getPostBySlug(slug: string): Promise<IArticle> {
-    const apiUrl = `https://howtocrackit.com/wp-json/wp/v2/posts?&_embed&slug=${slug}`;
+    // because sometime api doenst return embeded data so we need to fetch it again
+
+    const apiUrl = `https://howtocrackit.com/wp-json/wp/v2/posts?_embed&slug=${slug}`;
     const response = await fetch(apiUrl);
     const posts = await response.json();
-    if (posts.length > 0) {
+    
+    if (posts.length > 0 && !!posts[0]._embedded) {
       return posts[0];
     } else {
-      throw new Error(`Post not found: ${slug}`);
+      await delay(6000)
+      console.log(slug)
+      return getPostBySlug(slug)
     }
+  }
+
+  const fetchPost = async (slug: string) => {
+    const apiUrl = `https://howtocrackit.com/wp-json/wp/v2/posts?_embed&slug=${slug}`;
+    const response = await fetch(apiUrl);
+    const posts = await response.json();
+  }
+  function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }

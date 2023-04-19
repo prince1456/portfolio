@@ -15,13 +15,15 @@ interface IPostDetails {
 }
 const PostDetails = ({ slug }: IPostDetails) => {
   const { data: post } = useQuery(["post"], () => getPostBySlug(slug));
+  console.log("&^#$%@#$@##$@=++++>", post?.title?.rendered);
   const { scrollYProgress } = useScroll();
-  console.log(post);
   const content = post?.content.rendered.replace(
     /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
     ""
   );
+
   const blogPost = post as IArticle;
+  console.log("##########$$$$$$$$", blogPost._embedded)
   return (
     <Layout>
       <article className="flex justify-center prose lg:prose-2xl max-w-none dark:prose-invert">
@@ -33,9 +35,12 @@ const PostDetails = ({ slug }: IPostDetails) => {
           type="BlogPosting"
           url={`${process.env.webUrl} + ${post?.slug}`}
           title={blogPost.title.rendered}
-          images={blogPost?._embedded["wp:featuredmedia"].map(
-            (img: any) => img?.source_url
-          )}
+          images={
+            blogPost._embedded &&
+            blogPost?._embedded["wp:featuredmedia"].map(
+              (img: any) => img?.source_url
+            )
+          }
           datePublished={blogPost.date}
           dateModified={blogPost.modified}
           authorName={blogPost.yoast_head_json.author}
@@ -49,19 +54,28 @@ const PostDetails = ({ slug }: IPostDetails) => {
             </span>{" "}
             <span className="text-red-500">{post?.yoast_head_json.author}</span>
           </p>
+
           <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          viewport={{ once: false }}
-           className="h-auto overflow-hidden aspect-auto">
-            <Image
-              src={post?._embedded["wp:featuredmedia"][0].media_details?.sizes?.full?.source_url ?? ""}
-              width={210}
-              height={180}
-              alt={post?.title.rendered || " "}
-              className="object-cover min-h-[180px] w-full duration-500 ease-in-out rounded-md group-hover:rotate-6 group-hover:scale-125"
-            />
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            viewport={{ once: false }}
+            className="h-auto overflow-hidden aspect-auto"
+          >
+            {blogPost._embedded && (
+              <Image
+                src={
+                  blogPost?._embedded
+                    ? blogPost?._embedded["wp:featuredmedia"][0]?.media_details
+                        ?.sizes?.full?.source_url
+                    : "/images/class.jpeg"
+                }
+                width={210}
+                height={180}
+                alt={blogPost?.title.rendered || " "}
+                className="object-cover min-h-[180px] w-full duration-500 ease-in-out rounded-md group-hover:rotate-6 group-hover:scale-125"
+              />
+            )}
           </motion.div>
           <div dangerouslySetInnerHTML={{ __html: content ?? " " }} />
         </Container>
