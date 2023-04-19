@@ -1,5 +1,4 @@
-import type { IArticle } from "../types/article";
-export const mockArticles: IArticle[] = [
+export const mockArticles = [
     {
       imageUrl: "/images/react-dojo.png",
       publishedDate: "2021-01-01",
